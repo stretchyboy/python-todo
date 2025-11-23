@@ -4,9 +4,9 @@
 
 @media (prefers-color-scheme: light) {
   body {
-    --void-bg-color: #c5afc7;
+    --void-bg-color: white;
     --primary-color: black;
-    --primary-bg-color: white;
+    --primary-bg-color: #e6d2e7;
     --secondary-color: black;
     --secondary-bg-color: #bc8dc0;
   }
@@ -16,9 +16,9 @@
   body {
     --void-bg-color: black;
     --primary-color: white;
-    --primary-bg-color: black;
+    --primary-bg-color: rgb(30, 30, 31);
     --secondary-color: lightgray;
-    --secondary-bg-color: white;
+    --secondary-bg-color: rgb(68, 64, 64);
   }
 }
 
@@ -28,20 +28,31 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   display: grid;
-  grid-template-columns: 1fr minmax(1fr, 1080px) 1fr;
+  grid-template-columns: 1fr minmax(auto, 1080px) 1fr;
+  grid-template-rows: 1fr minmax(auto, 80vh) 1fr;
   grid-template-areas:
+    ". header ."
+    ". main   ."
+    ". footer .";
+
+  /*grid-template-areas:
     "header header header"
     ".      main   ."
-    "footer footer footer";
-  min-height: 100vh;
+    "footer footer footer";*/
+}
+
+main,
+header,
+footer{
+  padding: 1rem;
 }
 
 main {
   grid-area: main;
   color: var(--primary-color);
   background-color: var(--primary-bg-color);
+  min-height: max-content;
 }
-
 
 header,
 footer {
@@ -50,15 +61,31 @@ footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-
+  align-items: baseline
 }
 
 header {
   grid-area: header;
-  max-height: 100px;
+  height: 70px;
 }
 
 footer {
   grid-area: footer;
-  max-height: 100px;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav ul li a {
+  color: var(--secondary-color);
+  text-decoration: none;
 }
