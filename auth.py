@@ -56,6 +56,9 @@ def callback_handling():
 @auth_bp.route('/logout')
 def logout():
     session.clear()
+    if request.remote_addr == "127.0.0.1":
+        return redirect('/')
+
     params = {
         'returnTo': url_for('todo.home', _external=True),
         'client_id': auth0_client_id
