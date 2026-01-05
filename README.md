@@ -1,5 +1,5 @@
 
-# Flask Todo App with GitHub OAuth
+# Flask Todo App with Dual Authentication
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![Flask](https://img.shields.io/badge/Flask-2.3-green)
@@ -8,7 +8,10 @@
 ## Features
 
 - Flask + SQLAlchemy ORM
-- GitHub OAuth via Flask-Dance
+- **Dual Authentication:**
+  - GitHub OAuth (Flask-Dance) for local Windows development
+  - Auth0 OAuth for Codespaces and Render production
+- Automatic provider detection based on environment
 - SQLite (easy to switch to PostgreSQL)
 - Ready for Render deployment
 - GitHub Actions CI/CD
@@ -17,7 +20,7 @@
 
 ### SQLAlchemy & SQLite
 
-### Flask-Dance & OAuth
+### Authentication (GitHub + Auth0)
 
 ### Render
 
@@ -25,42 +28,135 @@
 
 ## Setup
 
+### Clone the Repository
+
+**Using Git Command Line:**
 ```bash
-git clone <repo-url>
-cd flask-todo-oauth
+git clone https://github.com/stretchyboy/python-todo.git
+cd python-todo
+```
+
+**Using GitHub Desktop:**
+1. Open GitHub Desktop
+2. Click `File` → `Clone repository`
+3. Select the `URL` tab
+4. Enter: `https://github.com/stretchyboy/python-todo.git`
+5. Choose a local path and click `Clone`
+
+### Install Dependencies
+
+```bash
 pip install -r requirements.txt
 cp .env.example .env
 ```
 
-## Run
+## Environment Configuration (.env)
 
-```python -m flask run```
+Create a `.env` file in the root directory with the following variables:
 
-## Explain .env
+```
+APP_SECRET_KEY=your-secret-key-here
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+AUTH0_DOMAIN=your-auth0-domain.auth0.com
+AUTH0_CLIENT_ID=your-auth0-client-id
+AUTH0_CLIENT_SECRET=your-auth0-client-secret
+AUTH0_CALLBACK_URL=http://localhost:5000/callback
+OAUTHLIB_INSECURE_TRANSPORT=1
+```
 
-Set up a APP_SECRET_KEY
+### Generate APP_SECRET_KEY
 
-## GitHub auth setup for local dev
+```bash
+python -c "import secrets; print(secrets.token_hex(32))"
+```
 
-Register your app on GitHub Developer Settings:
+## Authentication Setup
 
-- Go to [GitHub OAuth Apps](https://github.com/settings/developers) [Full Docs](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app)
-- Create a new OAuth App. ( You will need one for your local development of any FlaskDance sites so I'd build one for that)
-- Set "Application name": FlaskDanceLocalDev
-- Set "Homepage URL": [http://localhost:5000](http://localhost:5000)
-- Set "Application description": For Local FlaskDanceDevelopment
-- Set "Authorization callback URL": [http://localhost:5000/login/github/authorized](http://localhost:5000/login/github/authorized) (for local dev).
+### How It Works
 
-Get Client ID and create a Client Secret now, copying them into .env
+This app automatically detects your environment and uses the appropriate authentication provider:
 
-You will also need to set ```OAUTHLIB_INSECURE_TRANSPORT=1``` in .env but only ever do this locally
+- **Local Windows Machine** → GitHub OAuth (via Flask-Dance)
+- **GitHub Codespaces** → Auth0 OAuth
+- **Render Production** → Auth0 OAuth
 
-## Other Auth
+The app checks for Codespaces environment variables (`CODESPACES`, `CODESPACE_NAME`) and routes accordingly.
 
-[https://flask-dance.readthedocs.io/en/latest/providers.html#providers](https://flask-dance.readthedocs.io/en/latest/providers.html#providers)
-[https://flask-dance.readthedocs.io/en/v1.2.0/quickstarts/google.html](https://flask-dance.readthedocs.io/en/v1.2.0/quickstarts/google.html)
-[https://flask-dance.readthedocs.io/en/latest/quickstart.html](https://flask-dance.readthedocs.io/en/latest/quickstart.html)
-[https://flask-security.readthedocs.io/en/stable/](https://flask-security.readthedocs.io/en/stable/)
+### GitHub OAuth Setup (Local Development)
+
+For local Windows development with GitHub Desktop:
+
+1. **Create a GitHub OAuth App**
+   - Go to [GitHub Settings → Developer settings → OAuth Apps](https://github.com/settings/developers)
+   - Click "New OAuth App"
+   - Set "Application name": Flask Todo App
+   - Set "Homepage URL": `http://localhost:5000`
+   - Set "Application description": Local development
+   - Set "Authorization callback URL": `http://localhost:5000/login/github/authorized`
+
+2. **Get Your Credentials**
+   - Copy the "Client ID" and generate a "Client Secret"
+   - Add them to your `.env` file as `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`
+
+3. **Enable Insecure Transport for Local Dev**
+   - Set `OAUTHLIB_INSECURE_TRANSPORT=1` in `.env` (only for local development)
+
+### Auth0 Setup (Codespaces & Production)
+
+For Codespaces and Render deployment:
+
+1. **Create an Auth0 Account**
+   - Go to [auth0.com](https://auth0.com) and sign up
+
+2. **Create an Application**
+   - Dashboard → Applications → Create Application
+   - Choose "Regular Web Applications"
+   - Name: Flask Todo App
+
+3. **Configure Application Settings**
+   - "Allowed Callback URLs": 
+     - Local: `http://localhost:5000/callback`
+     - Codespaces: `https://<codespace-url>/callback`
+     - Production: `https://your-app.onrender.com/callback`
+   - "Allowed Logout URLs": 
+     - Local: `http://localhost:5000/`
+     - Production: `https://your-app.onrender.com/`
+   - "Allowed Web Origins": Same as callback URLs
+
+4. **Copy Credentials**
+   - Add Auth0 Domain, Client ID, and Client Secret to `.env`
+
+## Running the Application
+
+Start the Flask development server:
+
+```bash
+python -m flask run
+```
+
+The app will be available at [http://localhost:5000](http://localhost:5000)
+
+### Important: Codespaces Port Configuration
+
+If you're running in **GitHub Codespaces**, you must set the forwarded port to **Public** for Auth0 callbacks to work:
+
+1. Open the **Ports** panel (bottom of VS Code)
+2. Right-click the port 5000
+3. Select "Port Visibility" → **Public**
+
+Without this, Auth0 cannot reach your callback URL and login will fail.
+
+**To use the app:**
+1. Visit [http://localhost:5000](http://localhost:5000)
+2. Click "Login" - it will automatically route to GitHub (local) or Auth0 (Codespaces)
+3. After successful login, manage your todos
+
+## Authentication Resources
+
+- [Flask-Dance Documentation](https://flask-dance.readthedocs.io/)
+- [Auth0 Python Quickstart](https://auth0.com/docs/quickstart/webapp/python)
+- [Auth0 Dashboard](https://manage.auth0.com/)
 
 ## The Database
 

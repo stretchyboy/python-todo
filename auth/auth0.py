@@ -28,7 +28,7 @@ def login_auth0():
     }
     return redirect(f"{auth0_authorize_url}?" + urlencode(params))
 
-@auth0_bp.route('/callback/auth0')
+@auth0_bp.route('/callback')
 def callback_auth0():
     code = request.args.get('code')
     token_payload = {
