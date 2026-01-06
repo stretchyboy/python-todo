@@ -134,6 +134,7 @@ For Codespaces and Render deployment:
      - Local: `http://localhost:5000/`
      - Production: `https://your-app.onrender.com/`
    - "Allowed Web Origins": Same as callback URLs
+    - Codespaces URL format: `https://<CODESPACE_NAME>-5000.<GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN>/` (use `/callback` for the callback and `/` for logout)
 
 4. **Copy Credentials**
    - Add Auth0 Domain, Client ID, and Client Secret to `.env`
