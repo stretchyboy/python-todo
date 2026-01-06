@@ -7,6 +7,7 @@ from auth import get_current_user
 todo_bp = Blueprint('todo', __name__)
 db = SQLAlchemy()
 
+
 @dataclass
 class Todo(db.Model):
     id: int
@@ -21,6 +22,7 @@ class Todo(db.Model):
     done = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.String(100), nullable=False)
 
+
 @todo_bp.route('/')
 def home():
     user = get_current_user()
@@ -29,6 +31,7 @@ def home():
     session['user_id'] = user["id"]
     todos = Todo.query.filter_by(user_id=session['user_id']).all()
     return render_template('index.html', todos=todos, user=user)
+
 
 @todo_bp.route('/add', methods=['POST'])
 def add():
@@ -40,6 +43,7 @@ def add():
     db.session.commit()
     return redirect('/')
 
+
 @todo_bp.route('/toggle/<int:todo_id>')
 def toggle(todo_id):
     todo = Todo.query.get(todo_id)
@@ -48,6 +52,7 @@ def toggle(todo_id):
         db.session.commit()
     return redirect('/')
 
+
 @todo_bp.route('/delete/<int:todo_id>')
 def delete(todo_id):
     todo = Todo.query.get(todo_id)
@@ -55,6 +60,7 @@ def delete(todo_id):
         db.session.delete(todo)
         db.session.commit()
     return redirect('/')
+
 
 def init_app(app):
     db.init_app(app)

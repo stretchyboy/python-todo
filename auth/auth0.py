@@ -14,8 +14,10 @@ auth0_authorize_url = f"{auth0_base_url}/authorize"
 auth0_token_url = f"{auth0_base_url}/oauth/token"
 auth0_userinfo_url = f"{auth0_base_url}/userinfo"
 
+
 def get_auth0_user():
     return session.get("user")
+
 
 @auth0_bp.route('/login/auth0')
 def login_auth0():
@@ -27,6 +29,7 @@ def login_auth0():
         "scope": "openid profile email"
     }
     return redirect(f"{auth0_authorize_url}?" + urlencode(params))
+
 
 @auth0_bp.route('/callback')
 def callback_auth0():
@@ -50,6 +53,7 @@ def callback_auth0():
         'email': userinfo.get('email', '')
     }
     return redirect('/')
+
 
 @auth0_bp.route('/logout/auth0')
 def logout_auth0():

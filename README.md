@@ -46,9 +46,20 @@ cd python-todo
 ### Install Dependencies
 
 ```bash
-pip install -r requirements.txt
+py -m pip install -r requirements.txt
+```
+
+### Copy Example Environment File
+
+```bash
+# On linux or codespaces
 cp .env.example .env
 ```
+
+### On Windows in VS Code
+
+Open `.env.example` and save as `.env`
+
 
 ## Environment Configuration (.env)
 
