@@ -1,3 +1,7 @@
+# Load environment variables from .env file (needed for gunicorn)
+from dotenv import load_dotenv
+load_dotenv()
+
 import os
 from flask import Flask
 from auth import auth_bp, auth0_bp, github_bp, github_auth_bp
@@ -34,6 +38,14 @@ def inject_dict_for_all_templates():
 
 # Initialize todo module (db and tables)
 init_todo(app)
+
+# Set AUTH0_CALLBACK_URL dynamically based on Render's hostname
+if 'RENDER_EXTERNAL_HOSTNAME' in os.environ:
+    auth0_callback_url = f"https://{os.environ['RENDER_EXTERNAL_HOSTNAME']}/callback"
+else:
+    auth0_callback_url = os.environ.get('AUTH0_CALLBACK_URL', 'http://localhost:5000/callback')
+
+# Use auth0_callback_url in your Auth0 configuration
 
 if __name__ == '__main__':
     app.run(debug=True)

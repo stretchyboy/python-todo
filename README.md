@@ -199,6 +199,7 @@ Ensure your repository contains:
 - `render.yaml` (blueprint configuration file)
 - `requirements.txt` (Python dependencies)
 - All application code pushed to GitHub
+- Use `python -m gunicorn app:app --bind 0.0.0.0:5000` to confirm that everything works ok under gunicorn before trying Render
 
 ### Step 2: Create a Blueprint on Render
 
