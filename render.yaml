@@ -20,13 +20,3 @@ services:
         sync: false
       - key: AUTH0_CALLBACK_URL
         value: https://${RENDER_EXTERNAL_HOSTNAME}/callback
-      - key: DATABASE_URL
-        fromDatabase:
-          name: flask-todo-db
-          property: connectionString
-
-databases:
-  - name: flask-todo-db
-    databaseName: flask_todo
-    plan: free
-    region: oregon

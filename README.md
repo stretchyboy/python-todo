@@ -171,17 +171,19 @@ Without this, Auth0 cannot reach your callback URL and login will fail.
 
 ## The Database
 
-This code uses [SQLAlchemy](https://www.sqlalchemy.org/) to set up classes that have methods to talk to many [databases](https://docs.sqlalchemy.org/en/20/dialects/index.html) we use SQLite for simplicity here.
+This code uses [SQLAlchemy](https://www.sqlalchemy.org/) to set up classes that have methods to talk to many [databases](https://docs.sqlalchemy.org/en/20/dialects/index.html). We use **SQLite for simplicity and easy local development**.
 
-### SQLite Viewer extension
+### Local Development (SQLite)
 
-The database file is in /instance/
+The database file is stored in `/instance/todo.db`
 
-The database can be changed to
+### Production Deployment (SQLite)
 
-## First deployment
+For initial deployment on Render, SQLite works fine for testing and small user bases. The database persists in Render's filesystem.
 
-Once you have your code how you want
+### Upgrading to PostgreSQL
+
+Once your app grows and you need a more robust database, see [POSTGRESQL_SETUP.md](POSTGRESQL_SETUP.md) for a complete migration guide.
 
 ## Deployment on Render
 
@@ -230,7 +232,7 @@ After the blueprint is created, you need to add your environment variables:
 
 2. **Add Environment Variables**
    - Click "Add Environment Variable"
-   - Add each variable from your `.env` file:
+   - Add each variable:
      ```
      APP_SECRET_KEY=<generate-new-secret-key>
      AUTH0_DOMAIN=<your-auth0-domain>.auth0.com
@@ -246,6 +248,7 @@ After the blueprint is created, you need to add your environment variables:
    - Render will automatically build and deploy your application
    - Wait for the build to complete (check the "Logs" tab)
    - Your app will be available at `https://<your-app-name>.onrender.com`
+   - **Note**: The SQLite database file will persist on Render's filesystem
 
 ### Step 4: Update Auth0 Settings
 
