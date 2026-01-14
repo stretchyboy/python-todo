@@ -135,7 +135,7 @@ For local Windows development with GitHub Desktop:
 Start the Flask development server:
 
 ```bash
-py -m flask run --host=localhost --port=5000  #it maybe python3 on your machine
+py -m flask run --host=localhost --port=5000  # it maybe python3 on your machine
 ```
 
 The app will be available at [http://localhost:5000](http://localhost:5000)
