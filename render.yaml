@@ -19,4 +19,4 @@ services:
       - key: AUTH0_CLIENT_SECRET
         sync: false
       - key: AUTH0_CALLBACK_URL
-        value: https://${RENDER_EXTERNAL_HOSTNAME}/callback
+        sync: false

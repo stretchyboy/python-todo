@@ -67,7 +67,10 @@ Ensure your repository contains:
    AUTH0_CLIENT_SECRET=your_client_secret
    AUTH0_DOMAIN=your_auth0_domain
    APP_SECRET_KEY=your_secret_key
+   AUTH0_CALLBACK_URL=https://your-app-name.onrender.com/callback
    ```
+   
+   **Important:** Replace `your-app-name.onrender.com` with your actual Render app URL (found in your Render dashboard).
    
    **Important:** Do NOT set `RENDER_EXTERNAL_HOSTNAME` manually. Render sets this automatically, but it's only available at runtime, not during build.
    

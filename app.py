@@ -51,16 +51,9 @@ app.config['AUTH0_CALLBACK_URL'] = auth0_callback_url
 if os.getenv('CODESPACE_NAME'):
     # Running in GitHub Codespaces
     redirect_uri = f"https://{os.getenv('CODESPACE_NAME')}-5000.{os.getenv('GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN')}/callback"
-elif os.getenv('RENDER'):
-    # Running on Render - use RENDER_EXTERNAL_URL which is set at runtime
-    render_url = os.getenv('RENDER_EXTERNAL_URL', '')
-    if render_url:
-        redirect_uri = f"{render_url}/callback"
-    else:
-        redirect_uri = None  # Will fall back to default
 else:
-    # Local development
-    redirect_uri = "http://localhost:5000/callback"
+    # Use AUTH0_CALLBACK_URL from environment (for both local and production)
+    redirect_uri = os.getenv('AUTH0_CALLBACK_URL', 'http://localhost:5000/callback')
 
 # Use auth0_callback_url in your Auth0 configuration
 
