@@ -158,8 +158,11 @@ The database file is stored in `/instance/todo.db`
 
 ## Your Development
 
+Try [ADDING_CATERGORIES.md](ADDING_CATERGORIES.md) to add one-to-many relationship and Catergories for the tasks.
 
+Then what could you make with the same ideas but different entities (things)? 
 
+Books and People could make a library etc ....
 
 
 ## Codespaces Setup

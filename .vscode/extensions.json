@@ -3,6 +3,7 @@
   "recommendations": [
     "ms-python.python",
     "ms-python.vscode-pylance",
-    "qwtel.sqlite-viewer"
+    "qwtel.sqlite-viewer",
+    "mermaidchart.vscode-mermaid-chart"
   ]
 }
