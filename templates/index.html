@@ -14,7 +14,7 @@
     {% for todo in todos %}
         <li>
             <a href="/toggle/{{ todo.id }}">{% if todo.done %}✅{% else %}⬜{% endif %}</a>
-            {{ todo.task }} [{{ todo.category.name }}]
+            {{ todo.task }} [{{ todo.category }}]
             <a href="/delete/{{ todo.id }}">❌</a>
         </li>
     {% endfor %}
