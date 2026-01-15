@@ -94,3 +94,8 @@ def init_app(app):
             db.session.add(urgent)
             db.session.add(non_urgent)
             db.session.commit()
+            
+        if Todo.query.count() == 0:
+            mreggleton = Todo(task="Mr Eggleton checking your Todo App!", done=False, user_id="github|5987806", category_id=non_urgent.id)
+            db.session.add(mreggleton)
+            db.session.commit()
