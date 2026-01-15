@@ -4,6 +4,7 @@ from flask import Blueprint, render_template, request, redirect, session
 # models.py
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass, Mapped, mapped_column
+from sqlalchemy import ForeignKey
 from auth import get_current_user
 
 
@@ -68,3 +69,8 @@ def init_app(app):
     db.init_app(app)
     with app.app_context():
         db.create_all()
+
+        if Todo.query.count() == 0:
+            mreggleton = Todo(task="Mr Eggleton checking your Todo App!", done=False, user_id="github|5987806")
+            db.session.add(mreggleton)
+            db.session.commit()
