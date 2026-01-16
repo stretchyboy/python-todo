@@ -1,5 +1,5 @@
 
-# Python as Dynamic Webserver
+# Python as Dynamic Web Server
 
 ---
 
@@ -7,8 +7,22 @@
 
 ```mermaid
 mindmap
-    Web Server
-        HTML #10003;
+    server)Web Server(
+        Program that responds to HTTP requests with HTML or Assets
+        Static Site
+            Hand Built #10003;
+            Coded one page at a time
+        Static Built #10003;
+            Build pages and layout into static pages
+        Dynamic
+            Build from templates and data on each request
+            Allows for the data to be changed
+            Authentication
+            Can be an API as well as HTML
+        SPA
+            Single Page Applications
+            Javascript heavy
+            Use APIs to get data
         Assets
             Images #10003;
             CSS #10003;
@@ -17,12 +31,6 @@ mindmap
             Text Files #10003;
             API
             Database
-            Authentication
-        Types
-            Hand Built #10003;
-            Static Built #10003;
-            Dynamic
-
 ```
 
 ---
@@ -59,7 +67,7 @@ A simple Python Todo Web App to do some improvements on and be a starting point 
 
 ---
 
-###   SQLAlchemy Snippet
+### SQLAlchemy Snippet
 
 ```python
 class Todo(db.Model):
@@ -72,6 +80,7 @@ class Todo(db.Model):
 ```
 
 ---
+
 ###  Flask Snippet
 
 ```python
@@ -85,6 +94,7 @@ def home():
     todos = Todo.query.filter_by(user_id=session['user_id']).all()
     return render_template('index.html', todos=todos, user=user)
 ```
+
 #### CRUD Admin Snippet
 
 ```python
@@ -196,7 +206,7 @@ Have a look, can you see the tables and data?
 
 ---
 
-## What We're Building Next 
+## What We're Building Next
 
 Next your going to add a **category system** to organize todos. Each todo must belong to one category (like "Urgent" or "Non-urgent"). Users will select a category from a dropdown menu when creating a new todo. Administrators can add, edit, or delete categories through the admin interface at `/admin/`.
 
@@ -268,9 +278,7 @@ class Todo(db.Model):
         return Category.query.get(self.category_id)
 ```
 
-
 ---
-
 
 ## Step 2: Update Routes in `todo.py`
 
@@ -473,6 +481,7 @@ The app will create a new database with the "Urgent" and "Non-urgent" categories
 - Minimal Autorisation all Authenticated users can do everything on the site.
 
 ---
+
 ## Things we are ignoring 2
 
 - Storing any user data in a database (other than an id from github or Auth0 ). To have users on this system to store any other PII refer to [https://flask-dance.readthedocs.io/en/latest/storages.html#sqlalchemy](https://flask-dance.readthedocs.io/en/latest/storages.html#sqlalchemy) and change the privacy statement.
