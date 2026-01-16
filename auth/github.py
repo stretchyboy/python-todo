@@ -20,7 +20,7 @@ def get_github_user():
             data = session["github"]
         # Prefix user id for compatibility
         user = {
-            "id": f"github:{data['id']}",
+            "id": f"github|{data['id']}",
             "name": data["login"],
             "email": data.get("email", "")
         }
