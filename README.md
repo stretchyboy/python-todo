@@ -53,7 +53,18 @@ Authentication is the act of proving who you are, in this system we use external
 
 ### Start from the Template
 
-1. Go to the github repository:
+1. Go to the github repository [https://github.com/UTCSheffield/python-flask-todo](https://github.com/UTCSheffield/python-flask-todo)
+2. Click the green "Use this template" button at the top of the page
+3. Select "Create a new repository"
+4. Fill in your new repository details:
+   - Choose a repository name (e.g., `python-flask-todo`)
+   - Add a description (optional)
+   - Choose Public or Private visibility
+5. Click "Create repository from template"
+6. Your new repository will be created with all the template files
+7. Now clone your new repository using one of the methods below
+
+---
 
 ### Clone the Repository
 
@@ -62,7 +73,7 @@ Authentication is the act of proving who you are, in this system we use external
 1. Open GitHub Desktop
 2. Click `File` → `Clone repository`
 3. Select the `URL` tab
-4. Enter: `https://github.com/mr-eggleton/python-flask-todo.git`
+4. Enter: `https://github.com/UTCSheffield/python-flask-todo.git`
 5. Choose a local path and click `Clone`
 6. Click 'Open in Visual Studio Code' to open the project in VS Code
 
@@ -71,7 +82,7 @@ Authentication is the act of proving who you are, in this system we use external
 **Using Git Command Line:**
 
 ```bash
-git clone https://github.com/mr-eggleton/python-flask-todo.git
+git clone https://github.com/UTCSheffield/python-flask-todo.git
 cd python-flask-todo
 ```
 

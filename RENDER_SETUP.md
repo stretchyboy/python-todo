@@ -49,7 +49,7 @@ Ensure your repository contains:
 3. **Connect Your GitHub Repository**
    - Click "Connect account" if this is your first time
    - Authorize Render to access your GitHub repositories
-   - Search for and select `mr-eggleton/python-flask-todo` (or your fork)
+   - Search for select your version of `python-flask-todo`
    - Click "Connect"
 
 4. **Review Blueprint Configuration**

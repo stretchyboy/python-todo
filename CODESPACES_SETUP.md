@@ -6,8 +6,8 @@ GitHub Codespaces is a flexible cloud-based development environment. Your editor
 
 ### Create a New Codespace
 
-1. **Go to the Repository**
-   - Navigate to [https://github.com/mr-eggleton/python-flask-todo](https://github.com/mr-eggleton/python-flask-todo) (or your fork)
+1. **Go to your Repository**
+   - Navigate to your **python-flask-todo**
 
 2. **Create a Codespace**
    - Click the green **"Code"** button
