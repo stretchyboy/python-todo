@@ -21,12 +21,12 @@ class AuthenticatedModelView(ModelView):
         return redirect(url_for('auth.login', next=request.url))
 
 
-def init_admin(app, db, model):
+def init_admin(app, db, todo_model):
     """Attach Babel and register secured admin views for the given model."""
     Babel(app, locale_selector=lambda: 'en')
     admin = Admin(app, name="Admin", template_mode="bootstrap4",
                   index_view=AuthenticatedAdminIndexView())
-    admin.add_view(AuthenticatedModelView(model, db.session,
+    admin.add_view(AuthenticatedModelView(todo_model, db.session,
                                           endpoint="todo_admin",
                                           name="Todos"))
     return admin

@@ -210,9 +210,9 @@ Have a look, can you see the tables and data?
 
 Next your going to add a **category system** to organize todos. Each todo must belong to one category (like "Urgent" or "Non-urgent"). Users will select a category from a dropdown menu when creating a new todo. Administrators can add, edit, or delete categories through the admin interface at `/admin/`.
 
----
-
 The system uses two database tables with a **one-to-many relationship**: one category can have many todos, but each todo belongs to exactly one category.
+
+---
 
 ```mermaid
 erDiagram
@@ -259,7 +259,7 @@ class Category(db.Model):
 
 ### 1.2: Update the Todo class
 
-Find the `Todo` class. It should look like this:
+Find the `Todo` class.
 
 Add a new line after `user_id` to add the category field. And add a new function / method which will make todo.category return the Category object that is linked by the category_id Foreign Key:
 
@@ -451,7 +451,7 @@ Restart your Flask app:
 py -m flask run --host=localhost --port=5000 # it maybe python3 on your machine
 ```
 
-The app will create a new database with the "Urgent" and "Non-urgent" categories automatically.
+The app will create a new database with the "Urgent" and "Non-urgent" categories automatically. Test it on [http://localhost:5000/](http://localhost:5000/)
 
 ---
 
@@ -463,6 +463,38 @@ The app will create a new database with the "Urgent" and "Non-urgent" categories
 
 ---
 
+## Adding a REST api for modern web techniques
+
+1. Stop your Flask app if it's running (press Ctrl+C in the terminal)
+
+### Step 7: Update `app.py` - 
+
+Find the imports at the top, the last one should be 
+`from admin import init_admin` add the following line
+
+```python
+from api import api_bp
+```
+
+And just after `app.register_blueprint(todo_bp)` add
+
+```python
+app.register_blueprint(api_bp)
+```
+
+--- 
+
+Restart your Flask app:
+
+```bash
+py -m flask run --host=localhost --port=5000 # it maybe python3 on your machine
+```
+
+Log in and go to [http://localhost:5000/api/](http://localhost:5000/api/) for
+api documentation and a testing environment
+
+---
+
 ## Summary of Changes
 
 - **Created** a new `Category` model
@@ -471,6 +503,7 @@ The app will create a new database with the "Urgent" and "Non-urgent" categories
 - **Modified** the add route to capture the selected category
 - **Added** automatic seeding of initial categories
 - **Enabled** category management in the admin interface
+- **Added** Full REST API with swagger documentation
 
 ---
 
