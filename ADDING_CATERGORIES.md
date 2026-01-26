@@ -53,17 +53,7 @@ class Category(db.Model):
 
 ### 1.2: Update the Todo class
 
-Find the `Todo` class. It should look like this:
-
-```python
-class Todo(db.Model):
-    __tablename__ = "todos"
-
-    id: Mapped[int] = mapped_column(primary_key=True, init=False)
-    task: Mapped[str] = mapped_column(db.String(200), nullable=False)
-    user_id: Mapped[str] = mapped_column(db.String(100), nullable=False)
-    done: Mapped[bool] = mapped_column(db.Boolean, default=False)
-```
+Find the `Todo` class.
 
 Add a new line after `user_id` to add the category field. And add a new function / method which will make todo.category return the Category object that is linked by the category_id Foreign Key:
 
@@ -90,19 +80,6 @@ class Todo(db.Model):
 
 Find the `home()` function and change it to pass categories to the template:
 
-**Old code:**
-
-```python
-@todo_bp.route('/')
-def home():
-    user = get_current_user()
-    if not user:
-        return render_template('login.html')
-    session['user_id'] = user["id"]
-    todos = Todo.query.filter_by(user_id=session['user_id']).all()
-    return render_template('index.html', todos=todos, user=user)
-```
-
 **New code:**
 
 ```python
@@ -117,23 +94,11 @@ def home():
     return render_template('index.html', todos=todos, categories=categories, user=user)
 ```
 
+---
+
 ### 2.2: Update the add() function
 
 Find the `add()` function and change it to capture the category:
-
-**Old code:**
-
-```python
-@todo_bp.route('/add', methods=['POST'])
-def add():
-    if 'user_id' not in session:
-        return redirect('/')
-    task_text = request.form['task']
-    new_task = Todo(task=task_text, done=False, user_id=session['user_id'])
-    db.session.add(new_task)
-    db.session.commit()
-    return redirect('/')
-```
 
 **New code:**
 
@@ -155,20 +120,6 @@ def add():
 ### 2.3: Update the init_app() function
 
 Find the `init_app()` function at the bottom of `todo.py`. Add code to seed the initial categories:
-
-**Old code:**
-
-```python
-def init_app(app):
-    db.init_app(app)
-    with app.app_context():
-        db.create_all()
-
-        if Todo.query.count() == 0:
-            mreggleton = Todo(task="Mr Eggleton checking your Todo App!", done=False, user_id="github|5987806")
-            db.session.add(mreggleton)
-            db.session.commit()
-```
 
 **New code:**
 
@@ -197,15 +148,6 @@ def init_app(app):
 
 Find the form in `index.html`:
 
-**Old code:**
-
-```html
-<form method="POST" action="/add">
-    <input type="text" name="task" placeholder="Enter task" required>
-    <button type="submit">Add</button>
-</form>
-```
-
 **New code:**
 
 ```html
@@ -221,13 +163,9 @@ Find the form in `index.html`:
 </form>
 ```
 
+---
+
 Find the task text being printed out and add the category next to it:
-
-**Old code:**
-
-```html
-            {{ todo.task }}
-```
 
 **New code:**
 
@@ -271,20 +209,6 @@ init_admin(app, db, Todo, Category)
 
 Find the `init_admin()` function in `admin.py`:
 
-**Old code:**
-
-```python
-def init_admin(app, db, model):
-    """Attach Babel and register secured admin views for the given model."""
-    Babel(app, locale_selector=lambda: 'en')
-    admin = Admin(app, name="Admin", template_mode="bootstrap4",
-                  index_view=AuthenticatedAdminIndexView())
-    admin.add_view(AuthenticatedModelView(model, db.session,
-                                          endpoint="todo_admin",
-                                          name="Todos"))
-    return admin
-```
-
 **New code:**
 
 ```python
@@ -315,8 +239,9 @@ Restart your Flask app:
 
 ```bash
 python3 -m flask run --host=localhost --port=5000 
+```
 
-The app will create a new database with the "Urgent" and "Non-urgent" categories automatically.
+The app will create a new database with the "Urgent" and "Non-urgent" categories automatically. Test it on [http://localhost:5000/](http://localhost:5000/)
 
 ---
 
@@ -324,7 +249,40 @@ The app will create a new database with the "Urgent" and "Non-urgent" categories
 
 1. Go to the home page - you should see a dropdown to select a category when adding a task
 2. Add a task with a category selected
-3. Log in and go to `/admin/` to see the Categories section where you can add, edit, or delete categories
+3. Log in and go to [http://localhost:5000/admin/](http://localhost:5000/admin/) to see the Categories section where you can add, edit, or delete categories
+
+---
+
+
+## Adding a REST api for modern web techniques
+
+1. Stop your Flask app if it's running (press Ctrl+C in the terminal)
+
+### Step 7: Update `app.py` - 
+
+Find the imports at the top, the last one should be 
+`from admin import init_admin` add the following line
+
+```python
+from api import api_bp
+```
+
+And just after `app.register_blueprint(todo_bp)` add
+
+```python
+app.register_blueprint(api_bp)
+```
+
+--- 
+
+Restart your Flask app:
+
+```bash
+py -m flask run --host=localhost --port=5000 # it maybe python3 on your machine
+```
+
+Log in and go to [http://localhost:5000/api/](http://localhost:5000/api/) for
+api documentation and a testing environment
 
 ---
 
@@ -336,3 +294,4 @@ The app will create a new database with the "Urgent" and "Non-urgent" categories
 - **Modified** the add route to capture the selected category
 - **Added** automatic seeding of initial categories
 - **Enabled** category management in the admin interface
+- **Added** Full REST API with swagger documentation
