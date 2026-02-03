@@ -49,7 +49,7 @@ Ensure your repository contains:
 3. **Connect Your GitHub Repository**
    - Click "Connect account" if this is your first time
    - Authorize Render to access your GitHub repositories
-   - Search for and select `mr-eggleton/python-flask-todo` (or your fork)
+   - Search for select your version of `python-flask-todo`
    - Click "Connect"
 
 4. **Review Blueprint Configuration**
@@ -74,7 +74,7 @@ Ensure your repository contains:
    
    **Important:** Do NOT set `RENDER_EXTERNAL_HOSTNAME` manually. Render sets this automatically, but it's only available at runtime, not during build.
    
-   **For Auth0 Configuration:** Use your actual Render app URL (e.g., `https://python-todo.onrender.com`) in Auth0 settings, not the variable name.
+   **For Auth0 Configuration:** Use your actual Render app URL (e.g., `https://python-flask-todo.onrender.com`) in Auth0 settings, not the variable name.
 
 3. **Automatic Deployment**
    - Render will automatically build and deploy your application

@@ -1,5 +1,3 @@
-
-
 from flask_restx import Api, Resource, fields, Namespace
 from flask import Blueprint, request, abort
 from flask_restx import Api, Resource, Namespace, fields
@@ -10,7 +8,9 @@ from schemas import TodoSchema, CategorySchema
 
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
-api = Api(api_bp, title="Todo API", version="1.0", description="Simple Todo API with categories")
+api = Api(api_bp, title="Todo API", version="1.0", 
+          description="Simple Todo API with categories")
+
 
 # For docs only
 todo_model = api.model('Todo', {
@@ -35,11 +35,13 @@ category_model = api.model('Category', {
 todo_schema = TodoSchema()
 category_schema = CategorySchema()
 
+
 def require_auth():
     user = get_current_user()
     if not user or not user.get('id'):
         abort(401)
     return user
+
 
 @api.route('/categories')
 class CategoryList(Resource):
@@ -48,6 +50,7 @@ class CategoryList(Resource):
         """List all categories"""
         categories = Category.query.all()
         return category_schema.dump(categories, many=True)
+
 
 @api.route('/todos')
 class TodoList(Resource):
@@ -76,6 +79,7 @@ class TodoList(Resource):
         db.session.add(todo)
         db.session.commit()
         return todo_schema.dump(todo), 201
+
 
 @api.route('/todos/<int:todo_id>')
 @api.response(404, 'Todo not found')
