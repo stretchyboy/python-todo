@@ -8,8 +8,8 @@ from auth import auth_bp, auth0_bp, github_bp, github_auth_bp
 from auth import is_codespaces, is_render
 from todo import todo_bp, init_app as init_todo 
 from todo import db, Todo, Category
-from api import api_bp
 from admin import init_admin
+from api import api_bp
 
 
 SITE = {
