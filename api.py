@@ -1,5 +1,3 @@
-
-
 from flask_restx import Api, Resource, fields, Namespace
 from flask import Blueprint, request, abort
 from flask_restx import Api, Resource, Namespace, fields
